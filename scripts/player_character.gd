@@ -24,9 +24,9 @@ func _process(_delta: float) -> void:
 		target += movementController * Globals.tileSize
 		isMoving = true
 		#Check collision here
-		#if [collide with wall]:
-			#target = position
-			#isMoving = false
+		if collision_layer:
+			target = position
+			isMoving = false
 		#elif [collide with hazard]:
 			#remove this character
 		#elif [collide with character] and not [other character].isMoving:
@@ -34,7 +34,7 @@ func _process(_delta: float) -> void:
 			#isMoving = false
 	elif active and isMoving:
 		var direction = (target - position).normalized()
-		var step = direction # If I end up doing delta time, add `* _delta` here
+		var step = direction * Globals.characterStepSize # If I end up doing delta time, add `* _delta` here
 		if position.distance_to(target) <= step.length():
 			isMoving = false
 			position = target
