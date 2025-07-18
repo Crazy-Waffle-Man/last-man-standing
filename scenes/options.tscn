@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://beq68q26el3b2"]
+
+[node name="Options" type="CanvasLayer"]
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = -1
+anchor_right = 0.528
+anchor_bottom = 0.778
+offset_right = -0.255981
+offset_bottom = -16.144
+text = "WIP"
+horizontal_alignment = 1
+vertical_alignment = 1
