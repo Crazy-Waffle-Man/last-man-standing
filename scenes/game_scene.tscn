@@ -2,9 +2,13 @@
 
 [ext_resource type="Script" uid="uid://icaekfj6gxw5" path="res://scripts/game_scene.gd" id="1_w5aja"]
 
-[node name="GameScene" type="Node2D"]
+[node name="GameScene" type="CanvasLayer"]
 script = ExtResource("1_w5aja")
 
 [node name="Hazards" type="TileMapLayer" parent="."]
 
 [node name="Obstacles" type="TileMapLayer" parent="."]
+
+[node name="Collisions" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Collisions"]

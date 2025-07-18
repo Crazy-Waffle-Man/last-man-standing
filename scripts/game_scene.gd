@@ -1,4 +1,4 @@
-extends Node2D
+extends CanvasLayer
 
 @onready var playerCharacterScene = preload("res://scenes/player_characters.tscn")
 
