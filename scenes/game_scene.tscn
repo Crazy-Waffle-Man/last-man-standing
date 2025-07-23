@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://b7ggner8vcyt6"]
+[gd_scene load_steps=2 format=3 uid="uid://b7ggner8vcyt6"]
 
 [ext_resource type="Script" uid="uid://icaekfj6gxw5" path="res://scripts/game_scene.gd" id="1_w5aja"]
-[ext_resource type="Script" uid="uid://cmuixestmsjab" path="res://scripts/collision_type_assigners/wall_collision_layer_assignment.gd" id="2_onqr8"]
 
 [node name="GameScene" type="CanvasLayer"]
 script = ExtResource("1_w5aja")
@@ -10,9 +9,11 @@ script = ExtResource("1_w5aja")
 
 [node name="Obstacles" type="TileMapLayer" parent="."]
 
-[node name="Collisions" type="StaticBody2D" parent="."]
+[node name="WallCollision" type="StaticBody2D" parent="."]
+collision_mask = 0
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Collisions"]
-polygon = PackedVector2Array(1120, 19, 1118, 631, 10, 631, 26, 13, 1116, 19, 1097, -44, -93, 2, -8, 922, 1254, 655, 1149, -52)
-script = ExtResource("2_onqr8")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="WallCollision"]
+position = Vector2(133, 128)
+polygon = PackedVector2Array(-58, -71, 899, -10, 937, 386, -12, 426, -59, -72, -174, -130, -170, 563, 1099, 582, 1113, -217, -184, -221, -174, -130)
+one_way_collision_margin = 0.0
 metadata/COLLISION_TYPE = 0

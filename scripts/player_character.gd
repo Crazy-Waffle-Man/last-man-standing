@@ -12,29 +12,24 @@ var movementController = Vector2.ZERO
 var target: Vector2
 
 func _ready() -> void:
+	set_meta("COLLISION_TYPE", Globals.collisionLayers.PLAYER)
 	target = position
 
 func _process(_delta: float) -> void:
-	if active and not isMoving:
-		movementController.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
-		movementController.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
-		if movementController.x != 0 and movementController.y != 0: #Only One input at a time please
-			movementController.y = 0
-		# Move by only one tile
-		target += movementController * Globals.tileSize
-		isMoving = true
-		#Check collision here
-		var space_state = get_world_2d().direct_space_state
-		#var result = space_state.intersect_point(PhysicsShapeQueryParameters2D.new(), target)
-		# for collision in result:
-			# var hit = collisoin["collider"]
-			# if hit.has_meta("COLLISION_TYPE"):
-				# match hit.get_meta("COLLISION_TYPE"):
-					#HANDLE POST-COLLISION BEHAVIOR HERE
-	elif active and isMoving:
-		var direction = (target - position).normalized()
-		var step = direction * Globals.characterStepSize # If I end up doing delta time, add `* _delta` here
-		if position.distance_to(target) <= step.length():
-			isMoving = false
-			position = target
-		else: position += step
+	pass
+
+
+func checkCollision(pos: Vector2) -> Array[int]:
+	var query = PhysicsPointQueryParameters2D.new()
+	query.position = pos
+	query.collide_with_areas = true
+	query.collide_with_bodies = true
+	query.collision_mask = Globals.collisionLayers.WALL | Globals.collisionLayers.HAZARD | Globals.collisionLayers.PLAYER
+	var spaceState = get_world_2d().direct_space_state.intersect_point(query)
+
+
+func interpolate(stepSize: int) -> void:
+	pass
+
+func handleInputs():
+	pass

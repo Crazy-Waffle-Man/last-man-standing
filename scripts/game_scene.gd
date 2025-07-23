@@ -7,7 +7,7 @@ func createCharacters(n: int): #Create n active characters
 	for i in range(n):
 		var _character = playerCharacterScene.instantiate()
 		_character.characterId = i
-		_character.position = Vector2(Globals.tileSize * i, 100)
+		_character.position = Vector2(Globals.TILE_SIZE * i, 100)
 		_character.active = true
 		add_child(_character)
 		toReturn.append(_character)
@@ -15,4 +15,4 @@ func createCharacters(n: int): #Create n active characters
 
 
 func _ready() -> void:
-	createCharacters(Globals.numCharacters)
+	createCharacters(Globals.NUM_CHARACTERS)
