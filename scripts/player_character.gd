@@ -24,14 +24,13 @@ func _process(_delta: float) -> void:
 		target += movementController * Globals.tileSize
 		isMoving = true
 		#Check collision here
-		if collision_layer:
-			target = position
-			isMoving = false
-		#elif [collide with hazard]:
-			#remove this character
-		#elif [collide with character] and not [other character].isMoving:
-			#target = position
-			#isMoving = false
+		var space_state = get_world_2d().direct_space_state
+		#var result = space_state.intersect_point(PhysicsShapeQueryParameters2D.new(), target)
+		# for collision in result:
+			# var hit = collisoin["collider"]
+			# if hit.has_meta("COLLISION_TYPE"):
+				# match hit.get_meta("COLLISION_TYPE"):
+					#HANDLE POST-COLLISION BEHAVIOR HERE
 	elif active and isMoving:
 		var direction = (target - position).normalized()
 		var step = direction * Globals.characterStepSize # If I end up doing delta time, add `* _delta` here
