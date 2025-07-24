@@ -8,3 +8,6 @@ enum collisionLayers {
 	HAZARD = 1 << 1,  #2
 	PLAYER = 1 << 2 #4
 }
+
+var reservedPositions: Array[Vector2] = []
+var inputLocked: bool = false

@@ -8,28 +8,47 @@ extends CharacterBody2D
 
 var active: bool = false
 @export var isMoving: bool = false
-var movementController = Vector2.ZERO
-var target: Vector2
+var movementController: Vector2 = Vector2.ZERO
+@export var target: Vector2
+@export var lastPos: Vector2
 
 func _ready() -> void:
-	set_meta("COLLISION_TYPE", Globals.collisionLayers.PLAYER)
+	add_to_group("PlayerCharacters")
 	target = position
 
 func _process(_delta: float) -> void:
-	pass
-
-
-func checkCollision(pos: Vector2) -> Array[int]:
-	var query = PhysicsPointQueryParameters2D.new()
-	query.position = pos
-	query.collide_with_areas = true
-	query.collide_with_bodies = true
-	query.collision_mask = Globals.collisionLayers.WALL | Globals.collisionLayers.HAZARD | Globals.collisionLayers.PLAYER
-	var spaceState = get_world_2d().direct_space_state.intersect_point(query)
-
-
-func interpolate(stepSize: int) -> void:
-	pass
+	#Player movement is handled in game_scene.gd now
+	if not isMoving: handleInputs()
+	else:
+		#Movement phase 2: interpolate
+		iLikeToMoveItMoveIt(Globals.CHARACTER_STEP_SIZE)
 
 func handleInputs():
-	pass
+	if Globals.inputLocked: return
+	Globals.reservedPositions.erase(target)
+	lastPos = position
+	#Determine movement vector
+	movementController.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+	movementController.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
+	if movementController.x != 0 and movementController.y != 0:
+		movementController.y = 0
+	
+	#Actually set the target pos, pass `target` to checkCollision
+	target += movementController * Globals.TILE_SIZE
+	isMoving = true
+
+func cancelMovement():
+	target = lastPos
+	isMoving = false
+
+func iLikeToMoveItMoveIt(stepSize: int)->void:
+	var moveItMoveIt = (position - target).normalized() * stepSize
+	var collisions = move_and_collide(moveItMoveIt)
+	if collisions:
+		match collisions.get_collider().collision_layer:
+			Globals.collisionLayers.WALL:
+				cancelMovement()
+			Globals.collisionLayers.HAZARD:
+				queue_free()
+	if position.distance_to(target) <= moveItMoveIt:
+		position = target
